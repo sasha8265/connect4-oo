@@ -5,7 +5,7 @@ class Game {
         let currPlayer = 1;
         let board = [];
         this.makeHtmlBoard();
-        this.makeBoard();
+        this.makeBoard.call(Game);
     };
 
     makeBoard() {
