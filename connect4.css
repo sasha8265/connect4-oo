@@ -1,34 +1,120 @@
+/* Header div styling */
+
+#header {
+	text-align: center;
+	font-family: Poppins, Arial, Helvetica, sans-serif;
+	font-size: 1.5em;
+}
+
+h1 {
+	margin-bottom: 15px;
+}
+
+#new-game-btn {
+	width: 140px;
+	height: 50px;
+	background-color: #f2b705;
+	color: black;
+	font-family: Poppins, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	letter-spacing: 2px;
+	border: 2px solid black;
+	border-radius: 25px;
+	box-shadow: 4px 4px black;
+	cursor: pointer;
+	transition-duration: 250ms;
+}
+
+#new-game-btn:hover {
+	transform: translateY(-3px);
+}
+
+#new-game-btn:active {
+	transform: translateY(4px);
+	box-shadow: 1px 1px black;
+}
+
+form {
+	margin-top: 20px;
+}
+
+input {
+	width: 210px;
+	height: 35px;
+	border-radius: 8px;
+	border: 1px solid black;
+	padding-left: 10px;
+	margin-left: 35px;
+	margin-right: 35px;
+	margin-top: 35px;
+	font-family: Poppins, Arial, Helvetica, sans-serif;
+}
+
 /* game board table */
 
+#game {
+	display: flex;
+	justify-content: center;
+	padding-top: 40px;
+}
+
 #board td {
-  width: 50px;
-  height: 50px;
-  border: solid 1px #666;
+	width: 70px;
+	height: 70px;
+	border: solid 1px #666;
+}
+
+/* game pieces animation */
+
+@keyframes bounce {
+	0% {
+		transform: translateY(-420px);
+	}
+	20% {
+		transform: translateY(-150px);
+	}
+	40% {
+		transform: translateY(20px);
+	}
+	60% {
+		transform: translateY(-100px);
+	}
+	80% {
+		transform: translateY(10px);
+	}
+	90% {
+		transform: translateY(-30px);
+	}
+	100% {
+		transform: translateY(0);
+	}
 }
 
 /* pieces are div within game table cells: draw as colored circles */
 
 .piece {
-  margin: 5px;
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
+	margin: 5px;
+	width: 80%;
+	height: 80%;
+	border-radius: 50%;
+	animation: bounce 800ms linear;
 }
 
 .piece.p1 {
-  background-color: red;
+	background-color: red;
 }
 
 .piece.p2 {
-  background-color: blue;
+	background-color: blue;
 }
 
 /* column-top is table row of clickable areas for each column */
 
 #column-top td {
-  border: dashed 1px lightgray;
+	border: dashed 1px lightgray;
 }
 
 #column-top td:hover {
-  background-color: gold;
+	background-color: #F2B70550;
 }
