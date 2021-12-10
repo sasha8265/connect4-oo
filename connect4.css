@@ -1,53 +1,61 @@
 /* Header div styling */
 
 #header {
-	text-align: center;
-	font-family: Poppins, Arial, Helvetica, sans-serif;
-	font-size: 1.5em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 h1 {
-	margin-bottom: 15px;
+	text-align: center;
+	font-family: Poppins, Arial, Helvetica, sans-serif;
+	font-size: 3.5em;
+	/* margin-top: 10px; */
+	/* margin-bottom: 10px; */
 }
 
-#new-game-btn {
-	width: 140px;
-	height: 50px;
+#start-game {
+	position: absolute;
+	width: 120px;
+	height: 120px;
 	background-color: #f2b705;
 	color: black;
 	font-family: Poppins, Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 14px;
-	letter-spacing: 2px;
+	font-weight: 500;
+	font-size: 16px;
+	letter-spacing: 1.5px;
 	border: 2px solid black;
-	border-radius: 25px;
+	border-radius: 60px;
 	box-shadow: 4px 4px black;
 	cursor: pointer;
 	transition-duration: 250ms;
 }
 
-#new-game-btn:hover {
+#start-game:hover {
 	transform: translateY(-3px);
 }
 
-#new-game-btn:active {
+#start-game:active {
 	transform: translateY(4px);
 	box-shadow: 1px 1px black;
 }
 
 form {
-	margin-top: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 534px;
+	margin-top: 30px;
+	margin-bottom: 30px;
 }
 
 input {
-	width: 210px;
+	width: 160px;
 	height: 35px;
 	border-radius: 8px;
 	border: 1px solid black;
 	padding-left: 10px;
-	margin-left: 35px;
-	margin-right: 35px;
-	margin-top: 35px;
 	font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
@@ -69,22 +77,22 @@ input {
 
 @keyframes bounce {
 	0% {
-		transform: translateY(-420px);
+		transform: translateY(-470px);
 	}
 	20% {
-		transform: translateY(-150px);
+		transform: translateY(-260px);
 	}
 	40% {
-		transform: translateY(20px);
+		transform: translateY(50px);
 	}
 	60% {
-		transform: translateY(-100px);
+		transform: translateY(-150px);
 	}
 	80% {
-		transform: translateY(10px);
+		transform: translateY(25px);
 	}
 	90% {
-		transform: translateY(-30px);
+		transform: translateY(-40px);
 	}
 	100% {
 		transform: translateY(0);
@@ -100,14 +108,14 @@ input {
 	border-radius: 50%;
 	animation: bounce 800ms linear;
 }
-
+/* 
 .piece.p1 {
-	background-color: red;
+	background-color: tomato;
 }
 
 .piece.p2 {
-	background-color: blue;
-}
+	background-color: teal;
+} */
 
 /* column-top is table row of clickable areas for each column */
 
@@ -116,5 +124,5 @@ input {
 }
 
 #column-top td:hover {
-	background-color: #F2B70550;
+	background-color: #f2b70550;
 }

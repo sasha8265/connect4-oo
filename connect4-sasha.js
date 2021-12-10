@@ -1,11 +1,11 @@
 class Game {
-    constructor(p1, p2, height, width) {
+    constructor(p1, p2, height = 6, width = 7) {
         this.players = [p1, p2];
         this.HEIGHT = height;
         this.WIDTH = width;
         this.makeHtmlBoard();
         this.makeBoard();
-        this.currPlayer = 1;
+        this.currPlayer = p1;
         this.gameOver = false;
     };
 
@@ -22,7 +22,10 @@ class Game {
         // make column tops 
         const top = document.createElement('tr');
         top.setAttribute('id', 'column-top');
-        top.addEventListener('click', this.handleClick.bind(this));
+        this.handleGameClick = this.handleClick.bind(this);
+        top.addEventListener('click', this.handleGameClick);
+
+        // top.addEventListener('click', this.handleClick.bind(this));
 
         for (let x = 0; x < this.WIDTH; x++) {
             const headCell = document.createElement('td');
@@ -30,7 +33,7 @@ class Game {
             top.append(headCell);
         }
         board.append(top);
-
+        
 
         // make main part of board
         for (let y = 0; y < this.HEIGHT; y++) {
@@ -53,12 +56,15 @@ class Game {
         return null;    
     }
     
-    
+
+
     placeInTable(y, x) {
         const piece = document.createElement('div');
+        
         piece.classList.add('piece');
-        piece.classList.add(`p${this.currPlayer}`);
+        // piece.classList.add(`p${this.currPlayer}`);
         piece.style.top = -50 * (y + 2);
+        piece.style.backgroundColor = this.currPlayer.color;
 
         const spot = document.getElementById(`${y}-${x}`);
         spot.append(piece);
@@ -66,9 +72,12 @@ class Game {
 
     endGame(msg) {
         alert(msg);
+        const top = document.querySelector('#column-top');
+        top.removeEventListener('click', this.handleGameClick);
     }
 
     handleClick(evt) {
+        const startBtn = document.getElementById('start-game')
         const x = +evt.target.id;
         const y = this.findSpotForCol(x);
         if (y === null) {
@@ -80,16 +89,31 @@ class Game {
 
         //Can't get this to call the right winner with the setTimeout
         if (this.checkForWin()) {
-            // setTimeout(() => { this.endGame(`Player ${this.currPlayer} won!`) }, 100);
-            return this.endGame(`Player ${this.currPlayer} won!`);
+            setTimeout(() => { startBtn.innerText = 'WINNER!' },0);
+
+            setTimeout(this.endGame, 500, `${this.currPlayer.color} wins!`);
+            setTimeout(() => {
+                startBtn.innerText = 'PLAY AGAIN?';
+            }, 5000);
+            this.gameOver = true;
+            // return this.endGame(`${this.currPlayer.color} wins!`);
+            
         }
 
         if (this.board.every(row => row.every(cell => cell))) {
-            return this.endGame('Tie!');
+            startBtn.innerText = 'Try Again?!'
+            setTimeout(this.endGame, 500, 'TIE!');
+            // setTimeout(() => {
+            //     startBtn.innerText = 'PLAY AGAIN?';
+            // }, 5000);
+            this.gameOver = true;
+            // return this.endGame('Tie!');
         }
 
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        console.log(this);
+        this.currPlayer = this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
+
+        startBtn.style.backgroundColor = this.currPlayer.color;
+        startBtn.innerText = `${this.currPlayer.color}'s turn`;
 
     }
 
@@ -148,10 +172,17 @@ class Player {
 }
 
 
-let newGame = new Game(6, 7);
+// window.addEventListener("load", e => {
+//     document.getElementById("new-game-btn").onclick = function () {
+//         location.reload();
+//     }
+// });
 
-window.addEventListener("load", e => {
-    document.getElementById("new-game-btn").onclick = function () {
-        location.reload();
-    }
-});
+
+document.getElementById('start-game').addEventListener('click', () => {
+    let p1 = new Player(document.getElementById('p1-color').value);
+    let p2 = new Player(document.getElementById('p2-color').value);
+    new Game(p1, p2);
+    
+})
+
