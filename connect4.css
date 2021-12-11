@@ -11,12 +11,11 @@ h1 {
 	text-align: center;
 	font-family: Poppins, Arial, Helvetica, sans-serif;
 	font-size: 3.5em;
-	/* margin-top: 10px; */
-	/* margin-bottom: 10px; */
+	margin-top: 10px;
+	margin-bottom: 30px;
 }
 
 #start-game {
-	position: absolute;
 	width: 120px;
 	height: 120px;
 	background-color: #f2b705;
@@ -46,8 +45,7 @@ form {
 	justify-content: space-between;
 	align-items: center;
 	width: 534px;
-	margin-top: 30px;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 
 input {
@@ -64,7 +62,7 @@ input {
 #game {
 	display: flex;
 	justify-content: center;
-	padding-top: 40px;
+	padding-top: 30px;
 }
 
 #board td {

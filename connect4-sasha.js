@@ -1,31 +1,38 @@
 class Game {
-    constructor(p1, p2, height = 6, width = 7) {
+    constructor(height, width, p1, p2) {
         this.players = [p1, p2];
+        this.currPlayer = p1;
+        this.board = [];
+        this.htmlBoard = document.getElementById('board');
         this.HEIGHT = height;
         this.WIDTH = width;
-        this.makeHtmlBoard();
-        this.makeBoard();
-        this.currPlayer = p1;
         this.gameOver = false;
     };
 
-    makeBoard() {
+    startGame() {
+        const startBtn = document.getElementById('start-game');
+        startBtn.innerText = 'START GAME';
+        startBtn.style.backgroundColor = '#f2b705'
+        this.currPlayer = this.players[0];
         this.board = [];
+        this.htmlBoard.innerHTML = '';
+        this.gameOver = false;
+        this.makeHtmlBoard();
+        this.makeBoard();
+    }
+
+    makeBoard() {
         for (let y = 0; y < this.HEIGHT; y++) {
             this.board.push(Array.from({ length: this.WIDTH }));
         }
         
     }
-    makeHtmlBoard() {
-        const board = document.getElementById('board');
-        
+    makeHtmlBoard() {        
         // make column tops 
         const top = document.createElement('tr');
         top.setAttribute('id', 'column-top');
         this.handleGameClick = this.handleClick.bind(this);
         top.addEventListener('click', this.handleGameClick);
-
-        // top.addEventListener('click', this.handleClick.bind(this));
 
         for (let x = 0; x < this.WIDTH; x++) {
             const headCell = document.createElement('td');
@@ -33,7 +40,6 @@ class Game {
             top.append(headCell);
         }
         board.append(top);
-        
 
         // make main part of board
         for (let y = 0; y < this.HEIGHT; y++) {
@@ -47,6 +53,7 @@ class Game {
             board.append(row);
         }
     }
+    
     findSpotForCol(x) {
         for (let y = this.HEIGHT - 1; y >= 0; y--) {
             if (!this.board[y][x]) {
@@ -56,7 +63,6 @@ class Game {
         return null;    
     }
     
-
 
     placeInTable(y, x) {
         const piece = document.createElement('div');
@@ -71,9 +77,11 @@ class Game {
     }
 
     endGame(msg) {
+        const startBtn = document.getElementById('start-game')
         alert(msg);
         const top = document.querySelector('#column-top');
         top.removeEventListener('click', this.handleGameClick);
+        startBtn.innerText = 'PLAY AGAIN?';
     }
 
     handleClick(evt) {
@@ -87,36 +95,33 @@ class Game {
         this.board[y][x] = this.currPlayer;
         this.placeInTable(y, x);
 
-        //Can't get this to call the right winner with the setTimeout
         if (this.checkForWin()) {
-            setTimeout(() => { startBtn.innerText = 'WINNER!' },0);
+            startBtn.style.backgroundColor = this.currPlayer.color;
+            console.log(`WINNER: ${this.currPlayer.color}`);
 
-            setTimeout(this.endGame, 500, `${this.currPlayer.color} wins!`);
-            setTimeout(() => {
-                startBtn.innerText = 'PLAY AGAIN?';
-            }, 5000);
+            setTimeout(() => {startBtn.innerText = 'WINNER!';}, 0);           
+            setTimeout(this.endGame, 100,`${this.currPlayer.color} wins!`);
             this.gameOver = true;
-            // return this.endGame(`${this.currPlayer.color} wins!`);
-            
         }
 
         if (this.board.every(row => row.every(cell => cell))) {
-            startBtn.innerText = 'Try Again?!'
-            setTimeout(this.endGame, 500, 'TIE!');
-            // setTimeout(() => {
-            //     startBtn.innerText = 'PLAY AGAIN?';
-            // }, 5000);
-            this.gameOver = true;
-            // return this.endGame('Tie!');
+            startBtn.innerText = 'TIE!'
+            setTimeout(this.endGame, 100, 'TIE!');
+            this.gameOver = true;            
         }
+        
+        // console.log(`just played: ${this.currPlayer.color}`);
+        // this.currPlayer = this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
+        // startBtn.style.backgroundColor = this.currPlayer.color;
+        // startBtn.innerText = `${this.currPlayer.color}'s turn`;
+        // console.log(`current player: ${this.currPlayer.color}`);
 
-        this.currPlayer = this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
-
-        startBtn.style.backgroundColor = this.currPlayer.color;
-        startBtn.innerText = `${this.currPlayer.color}'s turn`;
-
+        if (!this.checkForWin()) {
+            this.currPlayer = this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
+            startBtn.style.backgroundColor = this.currPlayer.color;
+            startBtn.innerText = `${this.currPlayer.color}'s turn`;
+        }
     }
-
 
 
     checkForWin() {
@@ -171,18 +176,14 @@ class Player {
     }
 }
 
-
-// window.addEventListener("load", e => {
-//     document.getElementById("new-game-btn").onclick = function () {
-//         location.reload();
-//     }
-// });
-
-
-document.getElementById('start-game').addEventListener('click', () => {
+let playerForm = document.getElementById('start-form');
+playerForm.addEventListener('submit', (e) => {
     let p1 = new Player(document.getElementById('p1-color').value);
     let p2 = new Player(document.getElementById('p2-color').value);
-    new Game(p1, p2);
-    
-})
+    const connectFour = new Game(6, 7, p1, p2);
+
+    e.preventDefault();
+    connectFour.startGame();
+
+});
 
